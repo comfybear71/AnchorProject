@@ -17,4 +17,7 @@ Building my First Project
 - Change to your project Directory and
 - type `git clone` then paste the git repository link you copied to
 
-
+## Step 3
+- Today we are making a **Backend** _Express_ Node JS server and a
+- **Frontend** react app with _Axios_ to talk to Express Backend.
+- This is gonna be awesome and so educational, ( I can't wait)
