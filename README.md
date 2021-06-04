@@ -1,8 +1,10 @@
-# project1
-Building my First Project
+# project1 [EXPRESS, CORS, AXIOS]
+Building our First Project, this is going to be a Frontend & Backend project.
+Using Express, Cors for the backend and Axios for the Frontend.
+It should be heaps of fun!!!
 
 ## Step 1
-- got [GitHub] (https://www.github.com "GitHub")
+- go to [GitHub] (https://www.github.com "GitHub")
 - Create an account, if you haven't already got one.
 - Create a new repository and give it a name.
 - Add a README.file
@@ -48,5 +50,75 @@ app.get('/', (req, res) => {
 
 ```
 
+## Step 5 Open in localhost:5000
+- run command `node server.js` in console
+- then open browser and type [localhost] (https://localhost:5000)
+- perfect, that's the backend setup, now lets do the frontend
 
+# Setting up the frontend
 
+## step 1
+- So lets make sure we are in our `project1` folder?
+- And lets make our frontend by typing `npx create-react-app frontend`
+- Then `cd frontend` this is where we install our modules for API requests
+- type the command `npm i --save axios` or if you prefer yarn, type `yarn add axios`
+
+## Step 2 Create App.js File
+- let's start with a clean project, so delete everything from `\src` folder
+- then add New File `App.js` and add te following code
+```
+import Axios from 'axios'
+
+function App() {
+
+  Axios ({
+    methods: "GET",
+    url: "http://localhost:5000/",
+    headers: { 
+      "Content-Type": "application/json"
+    }
+  }).then(res => {
+    console.log(res.data.message);
+  })
+  
+  return (
+    <div className="App">
+    </div>
+  );
+}
+
+export default App;
+
+```
+
+- Then save file
+
+## Step 3 Create index.js File
+
+- Create new file, called `index.js` and add the following code
+
+```
+    import React from 'react';
+    import ReactDOM from 'react-dom';
+    import App from './App';
+
+    ReactDOM.render(
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>,
+    document.getElementById('root')
+    );
+
+```
+## Step 4 Get ya motor running
+- Now make sure, terminal is inside the `\frontend` folder
+- You can either `npm start` or `yarn start`
+- then add another terminal and make sure you are in `project1` folder and
+- run the command `node server.js` then lets open our browser again at [localhost] (https://localhost:3000)
+- right click on screen, go inspect, then select console
+- Where you'll see our message 'We are ready and waiting'
+- project 1 is complete
+
+# That's it for first project.
+- That's it for project 1, now lets go deeper, with project 2.
+- Fork off from this project1 and add some API calls
