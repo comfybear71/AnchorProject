@@ -10,4 +10,11 @@ Building my First Project
 - Choose a license (MIT)
 - Hit Create Repository button
 
+## Step 2
+- Copy Git Repository as per image below.
+! [GitHub] (http://anchor.gold/project_folder/images/githubScreenShot.png)
+- Open powerShell on PC.
+- Change to your project Directory and
+- type `git clone` then paste the git repository link you copied to
+
 
