@@ -7,5 +7,5 @@ app.use(cors());
 app.listen(port, () => console.log('Server Listening on port: ' + port));
 
 app.get('/', (req, res) => {
-    res.send({message: 'We made it'})
+    res.send({message: 'We are ready and waiting'})
 })
