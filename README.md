@@ -1,8 +1,9 @@
-# project2 [ADDING API CALLS, NODEMON]
-Building our Second Project, we are going to create some API calls and see how it goes.
-It should be heaps of fun again!!! We'll use _POSTMAN_ & _INSOMIA_ to do our **GETS**, **POST**, **PITCH** and **DELETE**. 
+# PROJECT 3 [EXPRESS, SQLite3, KNEX]
+In this project 3 we start a brand new project and create a SQlite database using the Knex.js library.
 
-## STEP 1: Add NODEMON
+
+
+<!-- ## STEP 1: Add NODEMON
 - Make sure we are in our terminals, backend first `\project1`
 - Add nodemon by typing in the terminal `yarn add nodemon`
 - once installed edit `package.json` with the following
@@ -69,4 +70,4 @@ server.get('/api/users', (req, res) => {
 
 ## STEP 4: POST using INSOMNIA
 
-- lets download POSTMAN and INSOMNIA
+- lets download POSTMAN and INSOMNIA -->
