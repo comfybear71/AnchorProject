@@ -69,6 +69,69 @@ server.delete ('/api/users/:wallet', (req, res) => {
     })
 })
 
+//ADD A TRANSACTION RECORD
+server.post('/api/users/:wallet/transactions', (req, res)=> {
+    
+    const { wallet } = req.params
+    const transaction = req.body
+    
+    Users.findByWallet(wallet)
+    .then(user => {
+        var id = user.id
+
+        if (!transaction.user_id) {
+            transaction["user_id"] = parseInt(id, 10)
+        }
+
+        Users.findByWallet(wallet)
+        .then(user => {
+            if(!user) {
+                res.status(404).json({ message: "Invalid Wallet address"})
+            } 
+        
+            // Check for all required fields
+            if(!transaction.wallet || !transaction.transaction_type || !transaction.amount || !transaction.txHash) {
+                res.status(400).json({ message: "Must provide all fields, transaction_type, amount, txHash"})
+            }
+            Users.addTransaction(transaction, id)
+            .then(trans => {
+                if(trans) {
+                    res.status(200).json( trans )
+                } 
+            })
+            .catch(err => {
+                res.status(500).json({ message: "Transaction Failed"})
+            })
+        })
+        .catch(err => {
+            res.status(500).json({ message: "ERROR ADDING TRANSACTION"})
+        })
+    })
+})
+
+//FIND ALL TRANSACTIONS BY WALLET ADDRESS
+server.get('/api/transactions/:wallet', (req, res) => {
+    const { wallet } = req.params
+
+    Users.findAllTransactionsForWallet(wallet)
+    .then(user => {
+        if (user){
+            res.status(200).json(user)
+        } else {
+            res.status(404).json({message: "Wallet not Found..."})
+        }
+    })
+    .catch(err => {
+        res.status(500).json({ message: "There is a problem..."})
+    })
+})
+
+
+server.listen(5000, ()=> {
+    console.log(`\n*** server running on http://localhost:${PORT}`);
+})
+
+
 //UPDATE A WALLET USING WALLET ADDRESS - I DO NOT NEED THIS FUNCTION!!!!!
 // server.patch('/api/users/:wallet', (req, res)=> {
 //     const { wallet } = req.params
@@ -84,99 +147,5 @@ server.delete ('/api/users/:wallet', (req, res) => {
 //     .catch(err => {
 //         res.status(500).json({ message: "Unable to perform UPDATE operation"})
 //     })
-// })
-
-
-
-server.listen(5000, ()=> {
-    console.log(`\n*** server running on http://localhost:${PORT}`);
-})
-
-
-
-
-
-
-
-// server.delete('/api/users/:id', (req, res)=>{
-//     const { id } = req.params;
-//     const deleted = users.find(user => user.id === id)
-//     if(deleted) {
-//         users = users.filter(user => user.id != id);
-//         res.status(200).json(deleted)
-//     } else {
-//         res.status(404).json({message: "User not found"})
-//     }
-// })
-
-
-
-// server.get('/api/users/:wallet', (req, res)=>{
-//     const {wallet} = req.params;
-
-//     const found = users.find(user => user.wallet === wallet)
-
-//     const allWalletTransactions = parseArray(found)
-
-//     if (found) {
-//         res.status(200).json(allWalletTransactions)
-//     } else {
-//         res.status(404).json({message: "Wallet Address does not exist"})
-//     }
-// })
-
-// function parseArray(arr) {
-//     return users.map((messageObject) => {
-//         return {
-//             wallet: messageObject.wallet,
-//             transaction_type: messageObject.transaction_type,
-//             amount: messageObject.amount,
-//             txHash: messageObject.txHash,
-//             id: messageObject.id,
-//         };
-//     });
-// }
-
-// server.get('/api/trans/:transaction_type', (req, res)=>{
-//     const {transaction_type} = req.params;
-    
-
-//     const found = users.find(user => user.transaction_type === transaction_type)
-
-//     const allTransactionsTypes = parseArrayTransactionTypes(found)
-
-//     if (found) {
-//         res.status(200).json(allTransactionsTypes)
-//     } else {
-//         res.status(404).json({message: "No Transaction of this type exist"})
-//     }
-// })
-
-// function parseArrayTransactionTypes(arr) {
-//     return users.map((messageObject) => {
-//         return {
-//             wallet: messageObject.wallet,
-//             transaction_type: messageObject.transaction_type,
-//             amount: messageObject.amount,
-//             txHash: messageObject.txHash,
-//             id: messageObject.id,
-//         };
-//     });
-// }
-
-
-
-
-// server.put('/api/users/:id', (req, res)=> {
-//     const { id } = req.params
-//     const changes = req.body
-//     const index = users.findIndex(user => user.id === id)
-
-//     if (index != -1) {
-//         users[index] = changes
-//         res.status(200).json(channels[index])
-//     } else {
-//         res.status(404).json({message: "Users does not exist"})
-//     }
 // })
 

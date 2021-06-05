@@ -7,6 +7,9 @@ exports.up = function(knex) {
     })
     .createTable('transactions', tbl => {
         tbl.increments()
+            
+        tbl.text('wallet', 128)
+            .notNullable()
         tbl.string('transaction_type')
             .notNullable()
         tbl.float('amount')

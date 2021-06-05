@@ -10,11 +10,8 @@ module.exports = {
     find,
     findByWallet,
     removeWallet,
-    // update,
-    // findMessageById,
-    // addMessage,
-    // findLessonMessages,
-    // removeMessage
+    addTransaction,
+    findAllTransactionsForWallet,
 }
 
 async function add(user) {
@@ -39,47 +36,33 @@ function removeWallet(wallet) {
     .del()
 }
 
-// function update(wallet, changes) {
-//     return db('users')
-//         .where({ wallet })
-//         .update(changes, [wallet])
-//     //     .then(() => {
-//     //         return findByWallet(changes)
-//     // })
-// }
+function findTransaction(id){
+    return db('transactions')
+    .where({ id })
+    .first()
+}
 
-// function findMessageById(id) {
-//     return db('messages')
-//     .where({ id })
-//     .first()
-// }
 
-// async function addMessage(message, lesson_id) {
-//     return await db('messages')
-//     .where({ lesson_id })
-//     .insert(message, ['id'])
-//     // const [id] = await db("messages")
-//     // .where({ lesson_id })
-//     // .insert(message)
-//     // return findMessageById(id)
-// }
+async function addTransaction(transaction, user_id) {
+    const [id] = await db('transactions')
+    .where({ user_id })
+    .insert(transaction)
+    return findTransaction(id)
+}
 
-// function findLessonMessages(lesson_id) {
-//     return db('lessons as l')
-//     .join("messages as m", "l.id", "m.lesson_id")
-//     .select(
-//         "l.id as LessonID",
-//         "l.name as LessonName",
-//         "m.id as MessageID",
-//         "m.sender",
-//         "m.text"
-//     )
-//     .where({ lesson_id})
-// }
+function findAllTransactionsForWallet(wallet) {
+    return db('transactions as t')
+    .join("users as u", "t.wallet", "u.wallet")
+    .select(
+        "u.id as UserID",
+        "u.wallet as Wallet_Address",
+        "t.id as TransactionID",
+        "t.wallet as Wallet",
+        "t.transaction_type as TransactionType",
+        "t.amount as Amount",
+        "t.txHash as txHash"
+    )
+    .where({wallet})
+}
 
-// function removeMessage (id) {
-//     return db('messages')
-//     .where({ id })
-//     .del()
-// }
 
