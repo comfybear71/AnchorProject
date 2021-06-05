@@ -14,14 +14,14 @@ exports.up = function(knex) {
         tbl.string('txHash')
             .notNullable()
         tbl.timestamps(true, true)
-
+        //Below is the foriegn key to the users table
         tbl.integer('user_id')
             .unsigned()
+            .notNullable()
             .references('id')
             .inTable('users')
             .onDelete('CASCADE')
             .onUpdate('CASCADE')
-
     })
 };
 

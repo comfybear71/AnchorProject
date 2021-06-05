@@ -2,12 +2,16 @@
 
 module.exports = {
 
-  development: {
-    client: 'sqlite3',
-    connection: {
-      filename: './data/anchor.db3'
-    },
-    useNullAsDefault: true
-  },
-
+    development: {
+            client: 'sqlite3',
+            useNullAsDefault: true,
+            connection: {
+                filename: './data/anchor.db3'
+            },
+        pool: {
+            afterCreate: (conn, done) => {
+                conn.run("PRAGMA foriegn_keys = ON", done)
+            }
+        }
+    }
 };
