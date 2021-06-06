@@ -6,8 +6,7 @@ exports.up = function(knex) {
         tbl.timestamps(true, true)
     })
     .createTable('transactions', tbl => {
-        tbl.increments()
-            
+        tbl.increments() 
         tbl.text('wallet', 128)
             .notNullable()
         tbl.string('transaction_type')

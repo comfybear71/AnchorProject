@@ -11,13 +11,15 @@ module.exports = {
     findByWallet,
     removeWallet,
     addTransaction,
-    findAllTransactionsForWallet,
+    GET_ALL_TRANSACTIONS,
+    GET_ALL_TRANSACTION_WALLET,
+    GET_ALL_TRANSACTION_WHERE,
+    GET_WALLET_BALANCE
 }
 
+///////////////////USERS////////////////
 async function add(user) {
     return await db('users').insert(user, ['id', 'wallet'])
-    // const [id] = await db('users').insert(user);
-    // return findById(id)
 }
 
 function find() {
@@ -36,33 +38,41 @@ function removeWallet(wallet) {
     .del()
 }
 
-function findTransaction(id){
-    return db('transactions')
-    .where({ id })
-    .first()
-}
+////////////////TRANSACTION//////////////////////////
 
-
+//////////////////////////////////////////////
 async function addTransaction(transaction, user_id) {
     const [id] = await db('transactions')
     .where({ user_id })
     .insert(transaction)
-    return findTransaction(id)
+
+    return FIND_TRANSACTION(id)
 }
 
-function findAllTransactionsForWallet(wallet) {
-    return db('transactions as t')
-    .join("users as u", "t.wallet", "u.wallet")
-    .select(
-        "u.id as UserID",
-        "u.wallet as Wallet_Address",
-        "t.id as TransactionID",
-        "t.wallet as Wallet",
-        "t.transaction_type as TransactionType",
-        "t.amount as Amount",
-        "t.txHash as txHash"
-    )
-    .where({wallet})
+function FIND_TRANSACTION(id){
+    return db('transactions')
+    .where({ id })
+}
+////////////////////////////////////////////
+
+function GET_ALL_TRANSACTIONS(){
+    return db('transactions')
+}
+
+function GET_ALL_TRANSACTION_WALLET(wallet) {
+    return db('transactions')
+    .where({ wallet })
+}
+
+function GET_ALL_TRANSACTION_WHERE(transaction_type) {
+    return db('transactions').sum('amount')
+    .where({ transaction_type })
+    
+}
+
+function GET_WALLET_BALANCE(wallet) {
+    return db('transactions').sum('amount')
+    .where({ wallet })
 }
 
 

@@ -13,6 +13,8 @@ server.get('/', (req, res) => {
     res.json({welcome: 'Welcome to project 3 or PART III'});
 })
 
+/////////////////////USER////////////////////////
+
 //ADD NEW WALLET WHEN WALLET CONNECTS
 server.post('/api/users', (req, res) => {
     Users.add(req.body)
@@ -33,7 +35,6 @@ server.get('/api/users', (req, res) => {
     .catch(err => {
         res.status(500).json({ message: "Can not get Wallet"})
     })
-    
 })
 
 //FIND A WALLET BY WALLET ADDRESS
@@ -69,12 +70,17 @@ server.delete ('/api/users/:wallet', (req, res) => {
     })
 })
 
+
+////////////////TRANSACTION//////////////////////////
+
 //ADD A TRANSACTION RECORD
 server.post('/api/users/:wallet/transactions', (req, res)=> {
     
     const { wallet } = req.params
     const transaction = req.body
     
+
+        
     Users.findByWallet(wallet)
     .then(user => {
         var id = user.id
@@ -93,6 +99,9 @@ server.post('/api/users/:wallet/transactions', (req, res)=> {
             if(!transaction.wallet || !transaction.transaction_type || !transaction.amount || !transaction.txHash) {
                 res.status(400).json({ message: "Must provide all fields, transaction_type, amount, txHash"})
             }
+
+            
+
             Users.addTransaction(transaction, id)
             .then(trans => {
                 if(trans) {
@@ -109,14 +118,56 @@ server.post('/api/users/:wallet/transactions', (req, res)=> {
     })
 })
 
+//FIND ALL TRANSACTION
+server.get('/api/transactions', (req, res) => {
+    Users.GET_ALL_TRANSACTIONS()
+    .then(found => {
+        res.status(200).json(found)
+    })
+    .catch(err => {
+        res.status(500).json({ message: "Can not find Transactions"})
+    })
+})
+
 //FIND ALL TRANSACTIONS BY WALLET ADDRESS
 server.get('/api/transactions/:wallet', (req, res) => {
     const { wallet } = req.params
+    Users.GET_ALL_TRANSACTION_WALLET(wallet)
+    .then(found => {
+        if (found){
+            res.status(200).json(found)
+        } else {
+            res.status(404).json({message: "Wallet not Found..."})
+        }
+    })
+    .catch(err => {
+        res.status(500).json({ message: "There is a problem..."})
+    })
+})
 
-    Users.findAllTransactionsForWallet(wallet)
-    .then(user => {
-        if (user){
-            res.status(200).json(user)
+//FINDS ALL TRANSACTION WHERE EQUAL DEPOSIT, WITHDRAW, PURCHASE
+server.get('/api/transactions_where/:trans', (req, res) => {
+    const { trans } = req.params
+    Users.GET_ALL_TRANSACTION_WHERE(trans)
+    .then(found => {
+        if (found){
+            res.status(200).json(found)
+        } else {
+            res.status(404).json({message: "Wallet not Found..."})
+        }
+    })
+    .catch(err => {
+        res.status(500).json({ message: "There is a problem..."})
+    })
+})
+
+//GET WALLET BALANCE
+server.get('/api/wallet_balance/:wallet', (req, res) => {
+    const { wallet } = req.params
+    Users.GET_WALLET_BALANCE(wallet)
+    .then(found => {
+        if (found){
+            res.status(200).json(found)
         } else {
             res.status(404).json({message: "Wallet not Found..."})
         }
@@ -127,25 +178,12 @@ server.get('/api/transactions/:wallet', (req, res) => {
 })
 
 
+
+
+////////////////LISTENING////////////
 server.listen(5000, ()=> {
     console.log(`\n*** server running on http://localhost:${PORT}`);
 })
 
 
-//UPDATE A WALLET USING WALLET ADDRESS - I DO NOT NEED THIS FUNCTION!!!!!
-// server.patch('/api/users/:wallet', (req, res)=> {
-//     const { wallet } = req.params
-//     const changes = req.body
-//     Users.update(wallet, changes)
-//     .then(user_wallet => {
-//         if (user_wallet) {
-//             res.status(200).json(user_wallet)
-//         } else {
-//             res.status(404).json({message: "Wallet does not exist"})
-//         }
-//     })
-//     .catch(err => {
-//         res.status(500).json({ message: "Unable to perform UPDATE operation"})
-//     })
-// })
 
