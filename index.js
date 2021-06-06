@@ -10,6 +10,7 @@ server.use(cors());
 const PORT = 5000;
 
 server.get('/', (req, res) => {
+    //res.send({welcome: 'Welcome to project 3 or PART III'});
     res.json({welcome: 'Welcome to project 3 or PART III'});
 })
 

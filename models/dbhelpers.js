@@ -70,9 +70,16 @@ function GET_ALL_TRANSACTION_WHERE(transaction_type) {
     
 }
 
-function GET_WALLET_BALANCE(wallet) {
-    return db('transactions').sum('amount')
-    .where({ wallet })
+async function GET_WALLET_BALANCE(wallet) {
+    const [amount] = await db('transactions').where({ wallet }).sum('amount')
+
+    var str = amount
+//     var new_str = str.replace(/{/, '')
+console.log(str)
+    return db('transactions')
+    .where({ wallet }).sum('amount')
+
+    
 }
 
 
