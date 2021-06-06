@@ -3,6 +3,7 @@ exports.up = function(knex) {
     return knex.schema.createTable('users', tbl => {
         tbl.increments()
         tbl.text('wallet', 128).unique().notNullable()
+        tbl.float('ustBalance').notNullable()
         tbl.timestamps(true, true)
     })
     .createTable('transactions', tbl => {

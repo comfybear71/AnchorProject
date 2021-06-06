@@ -14,7 +14,8 @@ module.exports = {
     GET_ALL_TRANSACTIONS,
     GET_ALL_TRANSACTION_WALLET,
     GET_ALL_TRANSACTION_WHERE,
-    GET_WALLET_BALANCE
+    GET_WALLET_BALANCE,
+    UPDATE_UST_BALANCE
 }
 
 ///////////////////USERS////////////////
@@ -36,6 +37,13 @@ function removeWallet(wallet) {
     return db('users')
     .where({ wallet })
     .del()
+}
+function UPDATE_UST_BALANCE(wallet, changes) {
+    return (
+        db('users')
+        .where({ wallet })
+        .update( changes, [wallet] )
+    )
 }
 
 ////////////////TRANSACTION//////////////////////////
@@ -74,5 +82,7 @@ function GET_WALLET_BALANCE(wallet) {
     return db('transactions')
     .where({ wallet }).sum('amount')
 }
+
+
 
 

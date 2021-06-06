@@ -71,6 +71,24 @@ server.delete ('/api/users/:wallet', (req, res) => {
     })
 })
 
+//UPDATES UST BALANCE WITH PATCH
+server.patch('/api/users/:wallet', (req, res)=> {
+    const { wallet } = req.params
+    const changes = req.body
+    Users.UPDATE_UST_BALANCE(wallet, changes)
+    .then(balance => { 
+        if(balance) {
+            res.status(200).json(balance)
+        } else {
+            res.status(404).json({message: "Wallet Not found to Update Balance"})
+        }
+    })
+    .catch(err => {
+        res.status(500).json({message: "THERE was an ERROR"})
+    })
+
+})
+
 
 ////////////////TRANSACTION//////////////////////////
 
