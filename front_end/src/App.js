@@ -2,21 +2,16 @@ import Axios from 'axios';
 
 function App() {
 
-  Axios ({
-    methods: "GET",
-    url: "http://localhost:5000/api/transactions_where/deposit",
-    //url: "http://localhost:5000/api/wallet_balance/terra19numtnjxeawhgvd4669f3l3ttmzs52eaa0ggt1",
-    headers: { 
-      "Content-Type": "application/json"
-    }
-  }).then(res => {
-    // console.log( res.data[0]["sum(`amount`)"]);
-  })
-
-
-
-
-
+  // Axios ({
+  //   methods: "GET",
+  //   url: "http://localhost:5000/api/transactions_where/deposit",
+  //   //url: "http://localhost:5000/api/wallet_balance/terra19numtnjxeawhgvd4669f3l3ttmzs52eaa0ggt1",
+  //   headers: { 
+  //     "Content-Type": "application/json"
+  //   }
+  // }).then(res => {
+  //   // console.log( res.data[0]["sum(`amount`)"]);
+  // })
 
 
   let overallDeposits = "http://localhost:5000/api/transactions_where/deposit"
